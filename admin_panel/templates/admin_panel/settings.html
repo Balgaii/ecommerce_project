@@ -1,0 +1,36 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block admin_content %}
+<div class="card border-0 shadow-sm p-4 mx-auto" style="max-width: 600px;">
+    <h2 class="fw-bold mb-4">Store Configuration</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Store Name</label>
+            <input type="text" name="store_name" value="{{ setting.store_name }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Contact Email</label>
+            <input type="email" name="contact_email" value="{{ setting.contact_email }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Contact Phone</label>
+            <input type="text" name="contact_phone" value="{{ setting.contact_phone }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Store Address</label>
+            <textarea name="store_address" class="form-control" rows="2" required>{{ setting.store_address }}</textarea>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Delivery Charges</label>
+                <input type="number" step="0.01" name="delivery_charges" value="{{ setting.delivery_charges }}" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Currency Symbol</label>
+                <input type="text" name="currency" value="{{ setting.currency }}" class="form-control" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold mt-3">Save Settings</button>
+    </form>
+</div>
+{% endblock %}

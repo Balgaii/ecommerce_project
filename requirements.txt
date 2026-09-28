@@ -1,0 +1,4 @@
+Django==5.0.2
+Pillow==10.4.0
+python-dotenv==1.0.1
+gunicorn==21.2.0

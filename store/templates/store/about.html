@@ -1,0 +1,20 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 mb-4">
+            <h1 class="fw-bold mb-3">About {{ store_settings.store_name }}</h1>
+            <p class="text-muted">Welcome to {{ store_settings.store_name }}, your ultimate destination for top-quality products. We are committed to providing you the very best online shopping experience with a focus on reliability, customer service, and uniqueness.</p>
+            <p class="text-muted">Founded with a passion for modern e-commerce, our store has come a long way. We now serve customers all over and are thrilled to be a part of the eco-friendly and customer-centric retail industry.</p>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="p-5 bg-light rounded shadow-sm">
+                <i class="fa-solid fa-store fa-4x text-primary mb-3"></i>
+                <h3 class="fw-bold">Quality Guaranteed</h3>
+                <p class="text-muted mb-0">Shop with confidence with our secure system and fast delivery.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

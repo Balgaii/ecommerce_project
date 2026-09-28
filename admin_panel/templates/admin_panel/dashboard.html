@@ -1,0 +1,56 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block admin_content %}
+<h2 class="fw-bold mb-4">Dashboard Overview</h2>
+<div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+    <div class="col">
+        <div class="card border-0 shadow-sm p-3 bg-primary text-white">
+            <h6 class="text-uppercase small">Total Sales</h6>
+            <h3 class="fw-bold mb-0">${{ total_sales }}</h3>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card border-0 shadow-sm p-3 bg-success text-white">
+            <h6 class="text-uppercase small">Total Orders</h6>
+            <h3 class="fw-bold mb-0">{{ total_orders }}</h3>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card border-0 shadow-sm p-3 bg-warning text-dark">
+            <h6 class="text-uppercase small">Pending Orders</h6>
+            <h3 class="fw-bold mb-0">{{ pending_orders }}</h3>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card border-0 shadow-sm p-3 bg-dark text-white">
+            <h6 class="text-uppercase small">Total Products</h6>
+            <h3 class="fw-bold mb-0">{{ total_products }}</h3>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm p-4">
+    <h4 class="fw-bold mb-3">Recent Orders</h4>
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in recent_orders %}
+            <tr>
+                <td class="fw-bold">#{{ order.order_id }}</td>
+                <td>{{ order.full_name }}</td>
+                <td>${{ order.total }}</td>
+                <td><span class="badge bg-secondary">{{ order.status }}</span></td>
+                <td><a href="{% url 'admin_order_detail' order.order_id %}" class="btn btn-sm btn-outline-primary">Manage</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

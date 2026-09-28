@@ -1,0 +1,50 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow-sm p-3">
+                <h5 class="fw-bold mb-3">My Account</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{% url 'dashboard' %}" class="text-decoration-none text-primary fw-bold">My Orders</a></li>
+                    <li class="mb-2"><a href="{% url 'logout' %}" class="text-decoration-none text-danger">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card border-0 shadow-sm p-4">
+                <h3 class="fw-bold mb-4">Order History</h3>
+                {% if orders %}
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td class="fw-bold">#{{ order.order_id }}</td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td>{{ store_settings.currency }}{{ order.total }}</td>
+                                <td><span class="badge bg-secondary">{{ order.status }}</span></td>
+                                <td><a href="{% url 'user_order_detail' order.order_id %}" class="btn btn-sm btn-outline-primary">View</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info text-center">You haven't placed any orders yet.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

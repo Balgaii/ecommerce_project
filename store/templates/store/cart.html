@@ -1,0 +1,77 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="fw-bold mb-4">Shopping Cart</h2>
+    {% if cart.items.exists %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm p-4">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.items.all %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" class="rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% endif %}
+                                    <span class="fw-bold">{{ item.product.name }}</span>
+                                </div>
+                            </td>
+                            <td>{{ store_settings.currency }}{{ item.product.get_price }}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <a href="{% url 'update_cart_item' item.id %}?action=dec" class="btn btn-outline-secondary">-</a>
+                                    <span class="btn btn-outline-secondary disabled text-dark">{{ item.quantity }}</span>
+                                    <a href="{% url 'update_cart_item' item.id %}?action=inc" class="btn btn-outline-secondary">+</a>
+                                </div>
+                            </td>
+                            <td class="fw-bold text-primary">{{ store_settings.currency }}{{ item.subtotal }}</td>
+                            <td>
+                                <a href="{% url 'remove_cart_item' item.id %}" class="text-danger"><i class="fa-solid fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm p-4">
+                <h4 class="fw-bold mb-3">Order Summary</h4>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal</span>
+                    <span class="fw-bold">{{ store_settings.currency }}{{ cart.subtotal }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Delivery Charges</span>
+                    <span class="fw-bold">{{ store_settings.currency }}{{ delivery_charges }}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between mb-4">
+                    <span class="fw-bold fs-5">Total</span>
+                    <span class="fw-bold fs-5 text-primary">{{ store_settings.currency }}{{ total_with_delivery }}</span>
+                </div>
+                <a href="{% url 'checkout' %}" class="btn btn-primary w-100 py-2 fw-bold">Proceed to Checkout</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center p-5">
+        <h4>Your cart is empty!</h4>
+        <p class="text-muted">Explore our shop and add some amazing products.</p>
+        <a href="{% url 'shop' %}" class="btn btn-primary mt-3">Go to Shop</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

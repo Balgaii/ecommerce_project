@@ -1,0 +1,61 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Sidebar Filters -->
+        <div class="col-md-3 mb-4">
+            <div class="card p-3 shadow-sm border-0">
+                <h5 class="fw-bold mb-3">Categories</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{% url 'shop' %}" class="text-decoration-none {% if not selected_category %}fw-bold text-primary{% else %}text-dark{% endif %}">All Categories</a></li>
+                    {% for cat in categories %}
+                    <li class="mb-2">
+                        <a href="{% url 'shop' %}?category={{ cat.slug }}" class="text-decoration-none {% if selected_category == cat.slug %}fw-bold text-primary{% else %}text-dark{% endif %}">
+                            {{ cat.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="col-md-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold">Shop Products</h2>
+                <span class="text-muted">Showing results</span>
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for product in products %}
+                <div class="col">
+                    <div class="card h-100 product-card shadow-sm">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 180px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted small">{{ product.category.name }}</p>
+                            <div class="mt-auto">
+                                <div class="mb-2">
+                                    <span class="fw-bold fs-5 text-primary">{{ store_settings.currency }}{{ product.get_price }}</span>
+                                    {% if product.discount_price %}
+                                    <span class="text-muted text-decoration-line-through small ms-2">{{ store_settings.currency }}{{ product.price }}</span>
+                                    {% endif %}
+                                </div>
+                                <a href="{% url 'product_detail' product.slug %}" class="btn btn-outline-primary w-100 btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info text-center">No products found matching your criteria.</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

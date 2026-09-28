@@ -1,0 +1,45 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block admin_content %}
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card border-0 shadow-sm p-4">
+            <h4 class="fw-bold mb-3">Add Category</h4>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Category Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 fw-bold">Create Category</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm p-4">
+            <h4 class="fw-bold mb-3">Categories List</h4>
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Slug</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cat in categories %}
+                    <tr>
+                        <td class="fw-bold">{{ cat.name }}</td>
+                        <td>{{ cat.slug }}</td>
+                        <td>{{ cat.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

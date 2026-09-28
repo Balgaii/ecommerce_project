@@ -1,0 +1,33 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm p-4">
+                <h2 class="fw-bold mb-4 text-center">Contact Us</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea name="message" rows="4" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Send Message</button>
+                </form>
+                <div class="mt-4 text-center text-muted small">
+                    <p class="mb-1"><i class="fa-solid fa-envelope me-2"></i>{{ store_settings.contact_email }}</p>
+                    <p class="mb-0"><i class="fa-solid fa-phone me-2"></i>{{ store_settings.contact_phone }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

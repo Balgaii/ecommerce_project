@@ -1,0 +1,30 @@
+{% extends 'admin_panel/base_admin.html' %}
+{% block admin_content %}
+<h2 class="fw-bold mb-4">Manage Orders</h2>
+<div class="card border-0 shadow-sm p-4">
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td class="fw-bold">#{{ order.order_id }}</td>
+                <td>{{ order.full_name }}</td>
+                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                <td>${{ order.total }}</td>
+                <td><span class="badge bg-secondary">{{ order.status }}</span></td>
+                <td><a href="{% url 'admin_order_detail' order.order_id %}" class="btn btn-sm btn-outline-primary">View / Edit</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

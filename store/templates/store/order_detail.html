@@ -1,0 +1,50 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <div class="card border-0 shadow-sm p-4 mx-auto" style="max-width: 800px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold mb-0">Order Details (#{{ order.order_id }})</h3>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm">Back to Dashboard</a>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning text-dark">{{ order.status }}</span></p>
+                <p class="mb-1"><strong>Date:</strong> {{ order.created_at|date:"F d, Y, h:i A" }}</p>
+                <p class="mb-0"><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-1"><strong>Deliver To:</strong> {{ order.full_name }}</p>
+                <p class="mb-1">{{ order.address }}, {{ order.city }}</p>
+                <p class="mb-0">Phone: {{ order.phone }}</p>
+            </div>
+        </div>
+        <h5 class="fw-bold mb-3">Items Ordered</h5>
+        <table class="table align-middle mb-4">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product_name }}</td>
+                    <td>{{ store_settings.currency }}{{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td class="fw-bold">{{ store_settings.currency }}{{ item.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-end">
+            <p class="mb-1">Subtotal: <strong>{{ store_settings.currency }}{{ order.subtotal }}</strong></p>
+            <p class="mb-1">Delivery Charges: <strong>{{ store_settings.currency }}{{ order.delivery_charges }}</strong></p>
+            <h4 class="fw-bold text-primary mt-2">Total: {{ store_settings.currency }}{{ order.total }}</h4>
+        </div>
+    </div>
+</div>
+{% endblock %}

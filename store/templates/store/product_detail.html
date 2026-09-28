@@ -1,0 +1,40 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm w-100" alt="{{ product.name }}" style="max-height: 450px; object-fit: cover;">
+            {% else %}
+            <div class="bg-light text-center p-5 rounded">No Image Available</div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <span class="badge bg-secondary mb-2">{{ product.category.name }}</span>
+            <h1 class="fw-bold mb-3">{{ product.name }}</h1>
+            <h3 class="text-primary fw-bold mb-3">
+                {{ store_settings.currency }}{{ product.get_price }}
+                {% if product.discount_price %}
+                <span class="text-muted text-decoration-line-through fs-5 ms-2">{{ store_settings.currency }}{{ product.price }}</span>
+                {% endif %}
+            </h3>
+            <p class="text-muted mb-4">{{ product.description }}</p>
+
+            <div class="mb-4">
+                {% if product.is_available and product.stock > 0 %}
+                <span class="badge bg-success">In Stock ({{ product.stock }} available)</span>
+                {% else %}
+                <span class="badge bg-danger">Currently Unavailable / Out of Stock</span>
+                {% endif %}
+            </div>
+
+            {% if product.is_available and product.stock > 0 %}
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg px-4"><i class="fa-solid fa-cart-shopping me-2"></i>Add to Cart</a>
+            {% else %}
+            <button class="btn btn-secondary btn-lg px-4" disabled>Out of Stock</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
