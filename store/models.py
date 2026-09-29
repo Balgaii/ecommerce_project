@@ -127,8 +127,9 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.quantity} of {self.product_name}"
 
+from django.db import models
+
 class StoreSetting(models.Model):
-    class StoreSetting(models.Model):
     store_name = models.CharField(max_length=100, default='THE NORTH GIFTS')
     contact_email = models.EmailField(default="support@thenorthgifts.com")
     contact_phone = models.CharField(max_length=20, default="+92 300 0000000")
