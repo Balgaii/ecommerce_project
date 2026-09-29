@@ -128,7 +128,9 @@ class OrderItem(models.Model):
         return f"{self.quantity} of {self.product_name}"
 
 class StoreSetting(models.Model):
+    class StoreSetting(models.Model):
     store_name = models.CharField(max_length=100, default='THE NORTH GIFTS')
+    # baqi fields...
     contact_email = models.EmailField(default="support@thenorthgifts.com")
     contact_phone = models.CharField(max_length=20, default="+92 300 0000000")
     store_address = models.TextField(default="Chalt Nagar, Pakistan")

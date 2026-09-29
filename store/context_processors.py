@@ -1,22 +1,12 @@
-from .models import StoreSetting, Cart
+from .models import StoreSetting
 
 def store_settings(request):
-    settings = StoreSetting.objects.first()
-    if not settings:
-        settings = StoreSetting.objects.create()
-    
-    cart_count = 0
-    if request.user.is_authenticated:
-        cart, _ = Cart.objects.get_or_create(user=request.user)
-        cart_count = cart.total_items
-    else:
-        session_key = request.session.session_key
-        if session_key:
-            cart = Cart.objects.filter(session_key=session_key).first()
-            if cart:
-                cart_count = cart.total_items
-
+    settings, created = StoreSetting.objects.get_or_create(id=1)
+    # Agar database mein purana naam hai, toh usay code se overwrite kar dein
+    if settings.store_name == 'LuxeCart' or not settings.store_name:
+        settings.store_name = 'THE NORTH GIFTS'
+        settings.save()
+        
     return {
-        'store_settings': settings,
-        'global_cart_count': cart_count,
+        'store_settings': settings
     }
