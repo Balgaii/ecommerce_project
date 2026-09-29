@@ -5,21 +5,23 @@ class StoreConfig(AppConfig):
     name = 'store'
 
     def ready(self):
-        # 1. Python 3.14 aur Django 5 template compatibility fix (Monkey Patch)
+        # Python 3.14 & Django template context compatibility fix
         try:
-            from django.template.context import Context
-            if hasattr(Context, '__copy__'):
-                old_copy = Context.__copy__
-                def new_copy(self):
-                    dup = old_copy(self)
-                    if not hasattr(dup, 'dicts') and hasattr(self, 'dicts'):
-                        dup.dicts = list(self.dicts)
-                    return dup
-                Context.__copy__ = new_copy
+            from django.template.context import BaseContext, Context
+            
+            def fixed_base_copy(self):
+                dup = object.__new__(self.__class__)
+                dup.__dict__.update(self.__dict__)
+                if hasattr(self, 'dicts'):
+                    dup.dicts = list(self.dicts)
+                return dup
+
+            BaseContext.__copy__ = fixed_base_copy
+            Context.__copy__ = fixed_base_copy
         except Exception:
             pass
 
-        # 2. Admin Superuser & Staff Forcefully Create/Update
+        # Admin Superuser & Staff Forcefully Create/Update
         from django.contrib.auth.models import User
         try:
             user, created = User.objects.get_or_create(username='admin')
