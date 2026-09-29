@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-import os
 
 class StoreConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -8,7 +7,11 @@ class StoreConfig(AppConfig):
     def ready(self):
         from django.contrib.auth.models import User
         try:
-            if not User.objects.filter(is_superuser=True).exists():
-                User.objects.create_superuser('admin', 'admin@thenorthgifts.com', 'admin12345')
+            # Agar user pehle se hai toh usay staff aur superuser bana do, warna naya bana do
+            user, created = User.objects.get_or_create(username='admin')
+            user.set_password('admin12345')
+            user.is_staff = True
+            user.is_superuser = True
+            user.save()
         except Exception:
             pass
